@@ -94,7 +94,7 @@ void    module_manager_entry(ULONG thread_input)
     /* Start the modules.  */
     txm_module_manager_start(&my_module1);
     //txm_module_manager_start(&my_module2);
-    
+#if 0    
     /* Sleep for a while and let the modules run....  */
     tx_thread_sleep(50);
     
@@ -119,7 +119,7 @@ void    module_manager_entry(ULONG thread_input)
     /* Start the module again.  */
     txm_module_manager_start(&my_module2);
     txm_module_manager_start(&my_module1);
-    
+#endif
     /* Now just spin...  */
     while(1)
     {

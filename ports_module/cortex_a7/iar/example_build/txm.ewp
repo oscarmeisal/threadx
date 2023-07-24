@@ -1052,7 +1052,7 @@
                 </option>
                 <option>
                     <name>IarchiveOutput</name>
-                    <state>C:\Users\cindydeng\AzureRTOS\threadx\modules\cortex-a-port\threadx\ports_module\cortex_a7\iar\example_build\Debug\Exe\txm.a</state>
+                    <state>C:\workspace\threadx\ports_module\cortex_a7\iar\example_build\Debug\Exe\txm.a</state>
                 </option>
             </data>
         </settings>
