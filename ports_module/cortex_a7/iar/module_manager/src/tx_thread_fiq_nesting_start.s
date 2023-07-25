@@ -66,13 +66,15 @@ SYS_MODE_BITS   EQU     0x1F                    ; System mode bits
 ;/*    DATE              NAME                      DESCRIPTION             */
 ;/*                                                                        */
 ;/*  09-30-2020     William E. Lamie         Initial Version 6.1           */
+;/*  xx-xx-xxxx     Yajun Xia                Updated comments,             */
+;/*                                            Added thumb mode support,   */
+;/*                                            resulting in version 6.x    */
 ;/*                                                                        */
 ;/**************************************************************************/
 ;VOID   _tx_thread_fiq_nesting_start(VOID)
 ;{
     RSEG    .text:CODE:NOROOT(2)
     EXPORT  _tx_thread_fiq_nesting_start
-    ARM
 _tx_thread_fiq_nesting_start
     MOV     r3,lr                               ; Save ISR return address
     MRS     r0, CPSR                            ; Pickup the CPSR
@@ -83,11 +85,7 @@ _tx_thread_fiq_nesting_start
                                                 ;   and push r1 just to keep 8-byte alignment
     BIC     r0, r0, #FIQ_DISABLE                ; Build enable FIQ CPSR
     MSR     CPSR_c, r0                          ; Enter system mode
-#ifdef INTER
     BX      r3                                  ; Return to caller
-#else
-    MOV     pc, r3                              ; Return to caller
-#endif
 ;}
 ;
     END

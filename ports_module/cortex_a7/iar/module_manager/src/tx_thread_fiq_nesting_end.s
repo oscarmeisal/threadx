@@ -73,13 +73,15 @@ FIQ_MODE_BITS   EQU     0x11                    ; FIQ mode bits
 ;/*    DATE              NAME                      DESCRIPTION             */
 ;/*                                                                        */
 ;/*  09-30-2020     William E. Lamie         Initial Version 6.1           */
+;/*  xx-xx-xxxx     Yajun Xia                Updated comments,             */
+;/*                                            Added thumb mode support,   */
+;/*                                            resulting in version 6.x    */
 ;/*                                                                        */
 ;/**************************************************************************/
 ;VOID   _tx_thread_fiq_nesting_end(VOID)
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_fiq_nesting_end
-    ARM
 _tx_thread_fiq_nesting_end
     MOV     r3,lr                               ; Save ISR return address
     MRS     r0, CPSR                            ; Pickup the CPSR
@@ -90,11 +92,7 @@ _tx_thread_fiq_nesting_end
     BIC     r0, r0, #MODE_MASK                  ; Clear mode bits
     ORR     r0, r0, #FIQ_MODE_BITS              ; Build IRQ mode CPSR
     MSR     CPSR_c, r0                          ; Re-enter IRQ mode
-#ifdef INTER
     BX      r3                                  ; Return to caller
-#else
-    MOV     pc, r3                              ; Return to caller
-#endif
 ;}
 ;
     END
