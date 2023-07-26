@@ -20,7 +20,6 @@
 ;/**************************************************************************/ 
 ;/**************************************************************************/ 
 ;
-    EXTERN  _tx_thread_current_ptr
     EXTERN  _txm_module_manager_kernel_dispatch
     
 
@@ -64,14 +63,12 @@
 ;/**************************************************************************/
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _txm_module_manager_user_mode_entry
-    ARM
 _txm_module_manager_user_mode_entry
 
     PUBLIC  _txm_system_mode_enter
-    ARM
 _txm_system_mode_enter
     SVC     1                               ; Get out of user mode
-_txm_module_priv
+
     ; At this point, we are in system mode.
     ; Save LR (and r3 for 8 byte aligned stack) and call the kernel dispatch function.
     PUSH    {r3, lr}
@@ -79,7 +76,6 @@ _txm_module_priv
     POP     {r3, lr}
 
     PUBLIC _txm_system_mode_exit
-    ARM
 _txm_system_mode_exit
     ; Trap to restore user mode while inside of ThreadX
     SVC     2

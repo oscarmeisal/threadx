@@ -80,7 +80,6 @@
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_timer_interrupt
-    ARM
 _tx_timer_interrupt
 ;
 ;    /* Upon entry to this routine, it is assumed that context save has already
@@ -193,7 +192,7 @@ __tx_timer_done
 __tx_something_expired
 ;
 ;
-    STMDB   sp!, {r0, lr}                       ; Save the lr register on the stack
+    PUSH    {r0, lr}                            ; Save the lr register on the stack
                                                 ;   and save r0 just to keep 8-byte alignment
 ;
 ;    /* Did a timer expire?  */
@@ -231,7 +230,7 @@ __tx_timer_dont_activate
 ;
 __tx_timer_not_ts_expiration
 ;
-    LDMIA   sp!, {r0, lr}                       ; Recover lr register (r0 is just there for
+    POP     {r0, lr}                            ; Recover lr register (r0 is just there for
                                                 ;   the 8-byte stack alignment
 ;
 ;    }
