@@ -36,8 +36,6 @@
         EXTERN  __tx_abort_handler
         EXTERN  __tx_irq_handler
         EXTERN  __tx_fiq_handler
-
-        ARM
 __vector:
         ; All default exception handlers (except reset) are
         ; defined as weak symbol definitions.
@@ -74,8 +72,7 @@ FIQ_Addr:       DCD   __tx_fiq_handler
 ;        PUBLIC  ?cstartup        
         EXTERN  ?main
         REQUIRE __vector
-
-        ARM        
+        
         
 __iar_program_start:        
 ?cstartup:

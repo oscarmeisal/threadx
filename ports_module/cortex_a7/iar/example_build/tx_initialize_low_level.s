@@ -363,7 +363,7 @@ ABT_MODE        DEFINE      0x17                ; ABORT mode
     EXTERN  _tx_execution_thread_exit
     EXTERN  _tx_thread_schedule
     RSEG    .text:CODE:NOROOT(2)
-    ARM
+
     PUBLIC  __tx_prefetch_handler
     PUBLIC  __tx_abort_handler
 __tx_prefetch_handler
