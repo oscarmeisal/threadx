@@ -68,6 +68,11 @@ FIQ_MASK        EQU         0x40                ; Interrupt bit mask
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_interrupt_restore
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_interrupt_restore
 
 ;   /* Apply the new interrupt posture.  */

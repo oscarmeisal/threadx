@@ -76,6 +76,11 @@ THUMB_MASK      EQU     0x20                    ; Thumb bit (5) of CPSR/SPSR
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_stack_build
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_stack_build
 ;
 ;       

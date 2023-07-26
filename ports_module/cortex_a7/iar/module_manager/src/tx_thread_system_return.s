@@ -71,6 +71,11 @@
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_system_return
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_system_return
 
 ;   /* Save minimal context on the stack.  */

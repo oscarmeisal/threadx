@@ -63,9 +63,19 @@
 ;/**************************************************************************/
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _txm_module_manager_user_mode_entry
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _txm_module_manager_user_mode_entry
 
     PUBLIC  _txm_system_mode_enter
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _txm_system_mode_enter
     SVC     1                               ; Get out of user mode
 
@@ -76,6 +86,11 @@ _txm_system_mode_enter
     POP     {r3, lr}
 
     PUBLIC _txm_system_mode_exit
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _txm_system_mode_exit
     ; Trap to restore user mode while inside of ThreadX
     SVC     2

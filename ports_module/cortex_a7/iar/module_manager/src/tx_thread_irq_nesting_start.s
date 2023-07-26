@@ -75,6 +75,11 @@ SYS_MODE_BITS   EQU     0x1F                    ; System mode bits
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_irq_nesting_start
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_irq_nesting_start
     MOV     r3, lr                               ; Save ISR return address
     MRS     r0, CPSR                            ; Pickup the CPSR

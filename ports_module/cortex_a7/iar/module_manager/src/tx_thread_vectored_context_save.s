@@ -69,6 +69,11 @@
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_vectored_context_save
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_vectored_context_save
 ;
 ;    /* Upon entry to this routine, it is assumed that IRQ interrupts are locked

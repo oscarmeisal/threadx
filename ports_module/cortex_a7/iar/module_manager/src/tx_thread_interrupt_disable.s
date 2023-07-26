@@ -63,6 +63,11 @@
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC _tx_thread_interrupt_disable
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_interrupt_disable
 ;
 ;    /* Pickup current interrupt lockout posture.  */

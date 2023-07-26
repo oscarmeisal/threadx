@@ -84,6 +84,11 @@ SYS_MODE        EQU     0x1F                    ; SYS mode
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_context_restore
+#if defined(THUMB_MODE)
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_context_restore
 
 #ifdef TX_ENABLE_FIQ_SUPPORT
@@ -171,7 +176,11 @@ restore_and_return_from_irq:
     POP     {r0, r10, r12, lr}              ; Recover SPSR, POI, and scratch regs
     MSR     SPSR_cxsf, r0                   ; Put SPSR back
     POP     {r0-r3}                         ; Recover r0-r3
+#if defined(THUMB_MODE)
+    BX      lr                              ; Return to point of interrupt
+#else
     MOVS    pc, lr                          ; Return to point of interrupt
+#endif
 ;}
 ;
     END

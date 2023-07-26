@@ -74,6 +74,11 @@ CPSR_MASK       EQU     0x9F                    ; Mask initial CPSR, IRQ ints en
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _txm_module_manager_thread_stack_build
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _txm_module_manager_thread_stack_build
 ;
 ;

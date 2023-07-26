@@ -82,6 +82,11 @@ FIQ_MODE_BITS   EQU     0x11                    ; FIQ mode bits
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_fiq_nesting_end
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_fiq_nesting_end
     MOV     r3,lr                               ; Save ISR return address
     MRS     r0, CPSR                            ; Pickup the CPSR

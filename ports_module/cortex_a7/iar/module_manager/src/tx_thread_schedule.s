@@ -93,6 +93,11 @@ THUMB_MASK          EQU     0x20            ; Thumb bit mask
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_schedule
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_thread_schedule
 
     ; Enter the scheduler.
@@ -111,6 +116,11 @@ _tx_scheduler_fault__
 
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  SWI_Handler
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 SWI_Handler
 
     PUSH    {r0-r3, r12, lr}                ; Store the registers
@@ -194,8 +204,12 @@ _tx_handler_svc_super_enter
 #endif
 
     ; Restore the registers and return
+#if defined(THUMB_MODE)
     POP     {r0-r3, r12, lr}
     SUBS    pc, lr, #0
+#else
+    LDMFD   sp!, {r0-r3, r12, pc}^
+#endif
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -248,9 +262,12 @@ _tx_handler_svc_arm
     ; *** TODO: handle semihosting requests or ARM angel requests ***
     
     ; Restore the registers and return
+#if defined(THUMB_MODE)
     POP     {r0-r3, r12, lr}
     SUBS    pc, lr, #0
-
+#else
+    LDMFD   sp!, {r0-r3, r12, pc}^
+#endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; SVC 0
@@ -424,6 +441,11 @@ _tx_skip_solicited_vfp_restore
     
 #ifdef __ARMVFP__
     PUBLIC  tx_thread_vfp_enable
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 tx_thread_vfp_enable
     MRS     r0, CPSR                        ; Pickup current CPSR
 #ifdef TX_ENABLE_FIQ_SUPPORT
@@ -440,6 +462,11 @@ tx_thread_vfp_enable
     B       restore_ints
 
     PUBLIC  tx_thread_vfp_disable
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 tx_thread_vfp_disable
     MRS     r0, CPSR                        ; Pickup current CPSR
 #ifdef TX_ENABLE_FIQ_SUPPORT

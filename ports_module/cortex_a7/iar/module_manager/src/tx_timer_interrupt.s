@@ -80,6 +80,11 @@
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_timer_interrupt
+#ifdef THUMB_MODE
+    THUMB
+#else
+    ARM
+#endif
 _tx_timer_interrupt
 ;
 ;    /* Upon entry to this routine, it is assumed that context save has already
