@@ -84,7 +84,6 @@ IRQ_MODE_BITS   EQU     0x12                    ; IRQ mode bits
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_irq_nesting_end
-    ARM
 _tx_thread_irq_nesting_end
     MOV     r3,lr                               ; Save ISR return address
     MRS     r0, CPSR                            ; Pickup the CPSR

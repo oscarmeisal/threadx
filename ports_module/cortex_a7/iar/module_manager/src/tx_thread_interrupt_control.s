@@ -23,7 +23,9 @@
 
 INT_MASK        EQU         0xC0                ; Interrupt bit mask
 IRQ_MASK        EQU         0x80                ; Interrupt bit mask
+#ifdef TX_ENABLE_FIQ_SUPPORT
 FIQ_MASK        EQU         0x40                ; Interrupt bit mask
+#endif
 ;
 ;
 

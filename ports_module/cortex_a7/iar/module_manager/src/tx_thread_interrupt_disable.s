@@ -21,8 +21,6 @@
 ;/**************************************************************************/
 
 
-DISABLE_INTS    DEFINE      0x80                ; IRQ interrupts disabled
-
 
 ;/**************************************************************************/ 
 ;/*                                                                        */ 
@@ -65,7 +63,6 @@ DISABLE_INTS    DEFINE      0x80                ; IRQ interrupts disabled
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC _tx_thread_interrupt_disable
-    ARM
 _tx_thread_interrupt_disable
 ;
 ;    /* Pickup current interrupt lockout posture.  */
@@ -81,7 +78,6 @@ _tx_thread_interrupt_disable
 #endif
 
     BX      lr                                  ; Return to caller
-
 ;}
 ;
     END

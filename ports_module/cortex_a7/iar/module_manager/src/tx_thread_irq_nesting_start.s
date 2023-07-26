@@ -75,7 +75,6 @@ SYS_MODE_BITS   EQU     0x1F                    ; System mode bits
 ;{
     RSEG    .text:CODE:NOROOT(2)
     PUBLIC  _tx_thread_irq_nesting_start
-    ARM
 _tx_thread_irq_nesting_start
     MOV     r3, lr                               ; Save ISR return address
     MRS     r0, CPSR                            ; Pickup the CPSR
@@ -87,7 +86,6 @@ _tx_thread_irq_nesting_start
     BIC     r0, r0, #IRQ_DISABLE                ; Build enable IRQ CPSR
     MSR     CPSR_c, r0                          ; Enter system mode
     BX      r3                                  ; Return to caller
-
 ;}
 ;
     END
