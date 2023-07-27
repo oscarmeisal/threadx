@@ -35,7 +35,7 @@ __txm_module_preamble:
                                                                     ;   Bits 23-2: Reserved
                                                                     ;   Bit 1:  0 -> no MPU protection
                                                                     ;           1 -> MPU protection
-                                                                    ;   Bit 0:  0 -> Privileged mode execution (no MPU protection)
+                                                                    ;   Bit 0:  0 -> Privileged mode execution
                                                                     ;           1 -> User mode execution
         DC32      _txm_module_thread_shell_entry - . - 0            ; Module Shell Entry Point
         DC32      demo_module_start - . - 0                         ; Module Start Thread Entry Point

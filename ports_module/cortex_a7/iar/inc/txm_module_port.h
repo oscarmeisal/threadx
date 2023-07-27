@@ -360,8 +360,8 @@ typedef struct TXM_MODULE_MANAGER_MEMORY_FAULT_INFO_STRUCT
 /* Define the macro to populate the thread control block with module port-specific information.  */
 
 #define TXM_MODULE_MANAGER_THREAD_SETUP(thread_ptr, module_instance)                                                                            \
-    thread_ptr -> tx_thread_module_current_user_mode =  module_instance -> txm_module_instance_property_flags & TXM_MODULE_MEMORY_PROTECTION;   \
-    thread_ptr -> tx_thread_module_user_mode =          module_instance -> txm_module_instance_property_flags & TXM_MODULE_MEMORY_PROTECTION;   \
+    thread_ptr -> tx_thread_module_current_user_mode =  module_instance -> txm_module_instance_property_flags & TXM_MODULE_USER_MODE;           \
+    thread_ptr -> tx_thread_module_user_mode =          module_instance -> txm_module_instance_property_flags & TXM_MODULE_USER_MODE;           \
     if (thread_ptr -> tx_thread_module_user_mode)                                                                                               \
     {                                                                                                                                           \
         thread_entry_info -> txm_module_thread_entry_info_kernel_call_dispatcher =   _txm_module_manager_user_mode_entry;                       \
@@ -369,7 +369,7 @@ typedef struct TXM_MODULE_MANAGER_MEMORY_FAULT_INFO_STRUCT
     else                                                                                                                                        \
     {                                                                                                                                           \
         thread_entry_info -> txm_module_thread_entry_info_kernel_call_dispatcher =   _txm_module_manager_kernel_dispatch;                       \
-    }
+}
 
 
 /* Define the macro to populate the module control block with module port-specific information.

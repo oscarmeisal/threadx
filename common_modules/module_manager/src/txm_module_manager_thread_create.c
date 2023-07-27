@@ -329,7 +329,7 @@ ULONG                   i;
 
 #if TXM_MODULE_MEMORY_PROTECTION
     /* If this is a memory protected module, allocate a kernel stack.  */
-    if((module_instance -> txm_module_instance_property_flags) & TXM_MODULE_MEMORY_PROTECTION)
+    if((module_instance -> txm_module_instance_property_flags) & TXM_MODULE_USER_MODE)
     {
         ULONG status;
 
