@@ -177,7 +177,12 @@ restore_and_return_from_irq:
     MSR     SPSR_cxsf, r0                   ; Put SPSR back
     POP     {r0-r3}                         ; Recover r0-r3
 #if defined(THUMB_MODE)
-    BX      lr                              ; Return to point of interrupt
+    ; SUBS    pc, lr, #0
+    STR      lr, [sp, #-8]
+    MRS      lr, SPSR    
+    STR      lr, [sp, #-4]
+    SUB      lr, sp, #8
+    RFE      lr
 #else
     MOVS    pc, lr                          ; Return to point of interrupt
 #endif

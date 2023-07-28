@@ -206,7 +206,12 @@ _tx_handler_svc_super_enter
     ; Restore the registers and return
 #if defined(THUMB_MODE)
     POP     {r0-r3, r12, lr}
-    SUBS    pc, lr, #0
+    ; SUBS    pc, lr, #0
+    STR      lr, [sp, #-8]
+    MRS      lr, SPSR    
+    STR      lr, [sp, #-4]
+    SUB      lr, sp, #8
+    RFE      lr
 #else
     LDMFD   sp!, {r0-r3, r12, pc}^
 #endif
@@ -264,7 +269,12 @@ _tx_handler_svc_arm
     ; Restore the registers and return
 #if defined(THUMB_MODE)
     POP     {r0-r3, r12, lr}
-    SUBS    pc, lr, #0
+    ; SUBS    pc, lr, #0
+    STR      lr, [sp, #-8]
+    MRS      lr, SPSR    
+    STR      lr, [sp, #-4]
+    SUB      lr, sp, #8
+    RFE      lr
 #else
     LDMFD   sp!, {r0-r3, r12, pc}^
 #endif
@@ -309,13 +319,13 @@ __tx_thread_schedule_loop
     CPSID   i                               ; Disable IRQ interrupts
 #endif
 
-    /* Setup the current thread pointer.  */
+;   /* Setup the current thread pointer.  */
     ; _tx_thread_current_ptr =  _tx_thread_execute_ptr;
 
     LDR     r1, =_tx_thread_current_ptr     ; Pickup address of current thread
     STR     r0, [r1]                        ; Setup current thread pointer
 
-    /* Increment the run count for this thread.  */
+;   /* Increment the run count for this thread.  */
     ; _tx_thread_current_ptr -> tx_thread_run_count++;
 
     LDR     r2, [r0, #4]                    ; Pickup run counter
@@ -323,7 +333,7 @@ __tx_thread_schedule_loop
     ADD     r2, r2, #1                      ; Increment thread run-counter
     STR     r2, [r0, #4]                    ; Store the new run counter
 
-    /* Setup time-slice, if present.  */
+;   /* Setup time-slice, if present.  */
     ; _tx_timer_time_slice =  _tx_thread_current_ptr -> tx_thread_time_slice;
 
     LDR     r2, =_tx_timer_time_slice       ; Pickup address of time-slice variable
@@ -331,7 +341,7 @@ __tx_thread_schedule_loop
 
 #if (defined(TX_ENABLE_EXECUTION_CHANGE_NOTIFY) || defined(TX_EXECUTION_PROFILE_ENABLE))
 
-    /* Call the thread entry function to indicate the thread is executing.  */
+;   /* Call the thread entry function to indicate the thread is executing.  */
 
     MOV     r5, r0                          ; Save r0
     BL      _tx_execution_thread_enter      ; Call the thread execution enter function
@@ -407,11 +417,21 @@ _tx_skip_mmu_update
     CPS     #SYS_MODE                       ; Enter SYS mode
 _tx_skip_interrupt_vfp_restore
 #endif
-    
+
     POP     {r0-r12, lr}                    ; Restore registers
     ADD     sp, #4                          ; Fix stack pointer (skip PC saved on stack)
     CPS     #SVC_MODE                       ; Enter SVC mode
+
+#if defined(THUMB_MODE)
+    ; SUBS    pc, lr, #0
+    STR      lr, [sp, #-8]
+    MRS      lr, SPSR    
+    STR      lr, [sp, #-4]
+    SUB      lr, sp, #8
+    RFE      lr
+#else
     SUBS    pc, lr, #0                      ; Return to point of thread interrupt
+#endif
 
 _tx_solicited_return
     MOV     r2, r5                          ; Move CPSR to scratch register
@@ -433,7 +453,16 @@ _tx_skip_solicited_vfp_restore
     CPS     #SVC_MODE                       ; Enter SVC mode
     MSR     SPSR_cxsf, r2                   ; Recover CPSR
     MOV     lr, r1                          ; Deprecated return via r1, so copy r1 to lr and return via lr
+#if defined(THUMB_MODE)
+    ; SUBS    pc, lr, #0
+    STR      lr, [sp, #-8]
+    MRS      lr, SPSR    
+    STR      lr, [sp, #-4]
+    SUB      lr, sp, #8
+    RFE      lr
+#else
     SUBS    pc, lr, #0                      ; Return to thread synchronously
+#endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; End SWI_Handler

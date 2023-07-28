@@ -152,11 +152,7 @@ _tx_initialize_low_level
 ;
 ;    /* Done, return to caller.  */
 ;
-#ifdef TX_THUMB
-    BX      lr                                  ; Return to caller
-#else
     MOV     pc, lr                              ; Return to caller
-#endif
 ;}
 ;
 ;/* Define shells for each of the interrupt vectors.  */
